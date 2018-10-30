@@ -40,7 +40,7 @@ func (mh MaximumHeap) getLeftChild(x int) int {
 }
 
 /*
-	获取给定下标的右节点index, 公式 i * 2 + 1
+	获取给定下标的右节点index, 公式 i * 2 + 2
  */
 func (mh MaximumHeap) getRightChild(x int) int {
 	return x * 2 + 2
