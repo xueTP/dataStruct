@@ -1,6 +1,9 @@
 package lineSegmentTree
 
-import "fmt"
+import (
+	"fmt"
+	"errors"
+)
 
 // LineSegmentTreeBaseSlice 线段树结构，基于golang的切片实现
 type LineSegmentTreeBaseSlice struct {
@@ -52,6 +55,7 @@ func (lst LineSegmentTreeBaseSlice) getSegTree(index, l, r int, seg *[]interface
 	return
 }
 
+// 获取一个区间内的数据操作值， 主要通过递归获取，这个值的操作定义为 LineSegmentTreeBaseSlice 的 margin 方法
 func (lst LineSegmentTreeBaseSlice) QueryInterval(l, r int) interface{} {
 	if l < 0 || r > lst.GetSize() - 1 || r < l {
 		return nil
@@ -60,6 +64,7 @@ func (lst LineSegmentTreeBaseSlice) QueryInterval(l, r int) interface{} {
 	return lst.queryInterval(0, 0, lst.GetSize(), l, r)
 }
 
+// 递归获取区间内的值， demo: 4-9 => 4-5 + (6-8 + 9)
 func (lst LineSegmentTreeBaseSlice) queryInterval(index, l, r , queryL, queryR int) interface{} {
 	if l == queryL && r == queryR {
 		return lst.segmentTree[index]
@@ -88,6 +93,35 @@ func (lst LineSegmentTreeBaseSlice) GetSize() int {
 	return len(lst.data) - 1
 }
 
+// 对于线段树内部的存储数据进行更新，同时维护线段树结构
+func (lst LineSegmentTreeBaseSlice) Update(index int, val interface{}) error {
+	if index < 0 || index > lst.GetSize() {
+		return errors.New("this index is overflow")
+	}
+
+	lst.data[index] = val
+	lst.update(0, 0, lst.GetSize(), index, val)
+	return nil
+}
+
+// 递归对index数据变动造成的线段树结构进行维护
+func (lst LineSegmentTreeBaseSlice) update(root, l, r, index int, val interface{}) {
+	if l == r {
+		lst.segmentTree[root] = val
+		return
+	}
+
+	mid := l + (r - l) / 2
+	leftIndex := lst.getLeftChild(root)
+	rightIndex := lst.getRightChild(root)
+	if index >= mid + 1 {
+		lst.update(rightIndex, mid + 1, l, index, val)
+	}else {
+		lst.update(leftIndex, l, mid, index, val)
+	}
+	lst.segmentTree[root] = lst.margin(lst.segmentTree[leftIndex], lst.segmentTree[rightIndex])
+}
+
 func LSTBaseSliceDemo() {
 	fun := func(a, b interface{}) interface{}{
 		if a == nil {
@@ -102,4 +136,6 @@ func LSTBaseSliceDemo() {
 	fmt.Println(lst)
 	val := lst.QueryInterval(1, 6)
 	fmt.Println(lst, val)
+	err := lst.Update(2, 23)
+	fmt.Println(lst, err)
 }
