@@ -1,14 +1,13 @@
 package main
 
-import (
-	"dataStruct/lineSegmentTree"
-)
+import "dataStruct/trie"
 
 func main() {
 	// array.MyArrayDemo()
 	// linkList.LinkListWithTailDemo()
 	// linkList.MyLinkListDemo()
 	// queue.LinkListQueueDemo()
-	//heap.MaximumHeapDemo()
-	lineSegmentTree.LSTBaseSliceDemo()
+	// heap.MaximumHeapDemo()
+	// lineSegmentTree.LSTBaseSliceDemo()
+	trie.TrieForByteDemo()
 }
