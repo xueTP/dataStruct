@@ -1,6 +1,6 @@
 package main
 
-import "dataStruct/trie"
+import "dataStruct/unionFind"
 
 func main() {
 	// array.MyArrayDemo()
@@ -9,5 +9,6 @@ func main() {
 	// queue.LinkListQueueDemo()
 	// heap.MaximumHeapDemo()
 	// lineSegmentTree.LSTBaseSliceDemo()
-	trie.TrieForByteDemo()
+	// trie.TrieForByteDemo()
+	unionFind.UnionFindBySliceDemo()
 }
