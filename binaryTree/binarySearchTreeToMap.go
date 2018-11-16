@@ -4,7 +4,7 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
-	"DataStruct/util"
+	"dataStruct/util"
 	"errors"
 )
 
@@ -52,6 +52,7 @@ func (bst *BinarySearchTreeToMap) addNode(key Compared, val interface{}, Node *T
 	} else if key.Comparison(Node.Key) < 0 {
 		Node.Left = bst.addNode(key, val, Node.Left)
 	}
+
 	return Node
 }
 
