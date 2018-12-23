@@ -65,7 +65,7 @@ func (abst AvlByBSTM) ggRotate(node *AvlTreeNode) *AvlTreeNode {
 	tempy := centerNode.Right
 	centerNode.Right = node
 	node.Left = tempy
-	return node
+	return centerNode
 }
 
 // addNode 通过递归向 avl 中添加节点（已经存在则修改节点对应val）
