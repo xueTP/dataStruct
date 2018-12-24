@@ -30,8 +30,23 @@ func TestAvlByBSTM_ggRotate(t *testing.T) {
 	// t.Logf("%#v, %v", testNode, avl.getBalanceFactor(testNode))
 	logrus.Info(avl)
 	avl.node = avl.ggRotate(testNode)
-	// if avl.getBalanceFactor(avl.node) > 1 {
-	// 	t.Error("this func is fail")
-	// }
+	if avl.getBalanceFactor(avl.node) > 1 {
+		t.Error("this func is fail")
+	}
 	logrus.Info(avl)
+}
+
+func TestAvlByBSTM_addNode(t *testing.T) {
+	avl := NewAvlByBSTM()
+	avl.node = avl.addNode(comparedInter(4), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(2), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(3), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(1), nil, avl.node)
+	logrus.Info(avl)
+	if avl.getBalanceFactor(avl.node) > 1 {
+		t.Error("this func is fail")
+	}
 }

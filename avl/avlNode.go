@@ -15,7 +15,7 @@ func NewAvlNodeEmpty() *AvlTreeNode {
 }
 
 func NewAvlNodeOnly(k binaryTree.Compared, v interface{}) *AvlTreeNode {
-	return &AvlTreeNode{Key: k, Val: v}
+	return &AvlTreeNode{Key: k, Val: v, High: 1}
 }
 
 func NewAvlNode(k binaryTree.Compared, v interface{}, l, r *AvlTreeNode) *AvlTreeNode {

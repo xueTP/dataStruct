@@ -30,9 +30,13 @@ func (abst *AvlByBSTM) inOrderTraversal(node *AvlTreeNode, s string) string {
 	if node == nil {
 		return s
 	}
+	s += "("
 	s = abst.inOrderTraversal(node.Left, s)
-	s += fmt.Sprintf("%v", node.Key) + ":" + util.InterfaceToString(node.Val) + ","
+	s += ")"
+	s += fmt.Sprintf("%v", node.Key) + ":" + util.InterfaceToString(node.High) + ","
+	s += "("
 	s = abst.inOrderTraversal(node.Right, s)
+	s += ")"
 	return s
 }
 
@@ -51,7 +55,7 @@ func (abst AvlByBSTM) getHigh(node *AvlTreeNode) int {
 	if node == nil {
 		return 0
 	}
-	return node.High
+	return int(math.Max(float64(abst.getHigh(node.Left)), float64(abst.getHigh(node.Right)))) + 1
 }
 
 // getBalanceFactor 返回传入分支的平衡因子 (左节点高度 - 右节点高度)
@@ -60,11 +64,13 @@ func (abst AvlByBSTM) getBalanceFactor(node *AvlTreeNode) int {
 }
 
 // ggRotate avl 辅助方法，主要用来维持 avl 平衡
-func (abst AvlByBSTM) ggRotate(node *AvlTreeNode) *AvlTreeNode {
+func (abst *AvlByBSTM) ggRotate(node *AvlTreeNode) *AvlTreeNode {
 	centerNode := node.Left
 	tempy := centerNode.Right
-	centerNode.Right = node
 	node.Left = tempy
+	node.High = abst.getHigh(node)
+	centerNode.Right = node
+	centerNode.High = abst.getHigh(centerNode)
 	return centerNode
 }
 
@@ -83,10 +89,13 @@ func (abst *AvlByBSTM) addNode(key binaryTree.Compared, val interface{}, Node *A
 		Node.Val = val
 	}
 	// 获取当前的高度(左右子节点的最大高度+1)
-	Node.High = int(math.Max(float64(Node.Left.High), float64(Node.Right.High))) + 1
+	Node.High = abst.getHigh(Node)
 	// 获取当前节点的平衡因子
-	//balanceFactor := abst.getBalanceFactor(Node)
-
+	balanceFactor := abst.getBalanceFactor(Node)
+	if balanceFactor > 1 {
+		fmt.Println(Node.Key)
+		Node = abst.ggRotate(Node)
+	}
 
 	return Node
 }
