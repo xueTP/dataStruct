@@ -27,15 +27,15 @@ func InterfaceToString(val interface{}) string {
 func InterfaceAssertion(val interface{}) string {
 	if v, ok := val.(int); ok {
 		return strconv.Itoa(v)
-	}else if v, ok := val.(float64); ok {
+	} else if v, ok := val.(float64); ok {
 		return strconv.FormatFloat(v, 'E', -1, 64)
-	}else if v, ok := val.(bool); ok {
+	} else if v, ok := val.(bool); ok {
 		return strconv.FormatBool(v)
-	}else if v, ok := val.(string); ok {
+	} else if v, ok := val.(string); ok {
 		return v
-	}else if v, ok := val.(uint64); ok {
+	} else if v, ok := val.(uint64); ok {
 		return strconv.FormatUint(v, 10)
-	}else if v, ok := val.(byte); ok {
+	} else if v, ok := val.(byte); ok {
 		return string(v)
 	}
 	return ""

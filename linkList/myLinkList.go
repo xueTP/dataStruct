@@ -1,11 +1,11 @@
 package linkList
 
 import (
+	"DataStruct/util"
 	"errors"
 	"fmt"
-	"strings"
 	"strconv"
-	"DataStruct/util"
+	"strings"
 )
 
 type MyLinkList struct {
@@ -18,7 +18,7 @@ func NewMyLinkList() *MyLinkList {
 }
 
 func (mll MyLinkList) String() string {
-	s := "this LinkList : size: "+ strconv.Itoa(mll.GetSize()) +" data: ["
+	s := "this LinkList : size: " + strconv.Itoa(mll.GetSize()) + " data: ["
 	cur := mll.head.Next
 	for cur != nil {
 		s += util.InterfaceToString(cur.Val) + "->"
@@ -41,7 +41,7 @@ func (mll MyLinkList) GetSize() int {
 }
 
 func (mll MyLinkList) checkIndex(index int) error {
-	if index < 0 || index > mll.size  {
+	if index < 0 || index > mll.size {
 		return errors.New("this index is not legitimate")
 	}
 	return nil
@@ -108,7 +108,7 @@ func (mll *MyLinkList) RemoveFrist() (interface{}, error) {
 }
 
 func (mll *MyLinkList) RemoveLast() (interface{}, error) {
-	return mll.RemoveByIndex(mll.size-1)
+	return mll.RemoveByIndex(mll.size - 1)
 }
 
 func MyLinkListDemo() {

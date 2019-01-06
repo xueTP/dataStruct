@@ -6,7 +6,7 @@ import (
 )
 
 type LoopQueue struct {
-	top int
+	top  int
 	tail int
 	data []interface{}
 }
@@ -20,24 +20,24 @@ func NewLoopQueue(cap int) *LoopQueue {
 	}
 }
 
-func (lq LoopQueue)IsEmpty() bool {
+func (lq LoopQueue) IsEmpty() bool {
 	if lq.top == lq.tail {
 		return true
 	}
 	return false
 }
 
-func (lq LoopQueue)GetSize() int {
+func (lq LoopQueue) GetSize() int {
 	var size int
 	if lq.top < lq.tail {
 		size = lq.tail - lq.top
-	}else if lq.top > lq.tail {
+	} else if lq.top > lq.tail {
 		size = len(lq.data) - (lq.top - lq.tail)
 	}
 	return size
 }
 
-func (lq LoopQueue)Peek() (interface{}, error) {
+func (lq LoopQueue) Peek() (interface{}, error) {
 	if lq.IsEmpty() {
 		return nil, errors.New("this loopQueue is empty")
 	}
@@ -48,7 +48,7 @@ func (lq *LoopQueue) EnQueue(val interface{}) {
 	lq.data[lq.tail] = val
 	lq.tail = (lq.tail + 1) % len(lq.data)
 	fmt.Println("***********", lq.tail, lq.top, lq.GetSize())
-	if (lq.tail + 1) % len(lq.data) == lq.top {
+	if (lq.tail+1)%len(lq.data) == lq.top {
 		lq.resize((lq.GetSize() + 1) * 2)
 	}
 }
@@ -60,15 +60,15 @@ func (lq *LoopQueue) DeQueue() (interface{}, error) {
 	res := lq.data[lq.top]
 	lq.top = (lq.top + 1) % len(lq.data)
 	if lq.GetSize() < len(lq.data)/4 {
-		lq.resize(len(lq.data)/2)
+		lq.resize(len(lq.data) / 2)
 	}
 	return res, nil
 }
 
-func (lq *LoopQueue)resize(cap int) {
+func (lq *LoopQueue) resize(cap int) {
 	data := make([]interface{}, cap)
 	for i := 0; i < lq.GetSize(); i++ {
-		data[i] = lq.data[(lq.top + i) % len(lq.data)]
+		data[i] = lq.data[(lq.top+i)%len(lq.data)]
 	}
 	lq.tail = lq.GetSize()
 	lq.top = 0

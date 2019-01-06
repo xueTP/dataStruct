@@ -72,7 +72,7 @@ func (ma *MyArray) GetIndexByValL(val interface{}) (int, error) {
 }
 
 func (ma *MyArray) GetIndexByValR(val interface{}) (int, error) {
-	for k := ma.GetSize()-1; k >= 0; k -- {
+	for k := ma.GetSize() - 1; k >= 0; k-- {
 		if ma.data[k] == val {
 			return k, nil
 		}
@@ -89,7 +89,7 @@ func (ma *MyArray) DelByIndex(index int) (interface{}, error) {
 	for k := index; k < ma.GetSize(); k++ {
 		ma.data[k] = ma.data[k+1]
 	}
-	ma.size --
+	ma.size--
 	ma.deleteAfter()
 	return res, nil
 }
@@ -120,7 +120,7 @@ func (ma *MyArray) DelByValR(val interface{}) (int, error) {
 	return key, err
 }
 
-func (ma *MyArray) ReplaceByIndex(index int, val interface{}) (error) {
+func (ma *MyArray) ReplaceByIndex(index int, val interface{}) error {
 	err := ma.checkIndex(index)
 	if err != nil {
 		return err
@@ -141,7 +141,7 @@ func (ma *MyArray) checkIndex(index int) error {
 
 func (ma *MyArray) deleteAfter() {
 	if ma.size <= ma.GetCap()/4 {
-		ma.redistributionArray(ma.GetCap()/2)
+		ma.redistributionArray(ma.GetCap() / 2)
 	}
 }
 

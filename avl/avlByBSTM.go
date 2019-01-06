@@ -1,13 +1,13 @@
 package avl
 
 import (
-	"strings"
-	"strconv"
-	"fmt"
-	"errors"
 	"dataStruct/binaryTree"
 	"dataStruct/util"
+	"errors"
+	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 type AvlByBSTM struct {
@@ -33,7 +33,7 @@ func (abst *AvlByBSTM) inOrderTraversal(node *AvlTreeNode, s string) string {
 	s += "("
 	s = abst.inOrderTraversal(node.Left, s)
 	s += ")"
-	s += fmt.Sprintf("%v", node.Key) + ":" + util.InterfaceToString(node.High) + ","
+	s += fmt.Sprintf("%v", node.Key) + ":" + util.InterfaceToString(abst.getHigh(node)) + ","
 	s += "("
 	s = abst.inOrderTraversal(node.Right, s)
 	s += ")"
@@ -68,21 +68,29 @@ func (abst *AvlByBSTM) ggRotate(node *AvlTreeNode) *AvlTreeNode {
 	centerNode := node.Left
 	tempy := centerNode.Right
 	node.Left = tempy
-	node.High = abst.getHigh(node)
+	// node.High = abst.getHigh(node)
 	centerNode.Right = node
-	centerNode.High = abst.getHigh(centerNode)
+	// centerNode.High = abst.getHigh(centerNode)
+	return centerNode
+}
+
+func (abst *AvlByBSTM) llRotate(node *AvlTreeNode) *AvlTreeNode {
+	centerNode := node.Right
+	tempy := centerNode.Left
+	node.Right = tempy
+	centerNode.Left = node
 	return centerNode
 }
 
 // addNode 通过递归向 avl 中添加节点（已经存在则修改节点对应val）
 func (abst *AvlByBSTM) addNode(key binaryTree.Compared, val interface{}, Node *AvlTreeNode) *AvlTreeNode {
 	if Node == nil {
-		abst.size ++
+		abst.size++
 		return NewAvlNodeOnly(key, val)
 	}
 
 	if key.Comparison(Node.Key) > 0 {
-		Node.Right = abst.addNode(key ,val, Node.Right)
+		Node.Right = abst.addNode(key, val, Node.Right)
 	} else if key.Comparison(Node.Key) < 0 {
 		Node.Left = abst.addNode(key, val, Node.Left)
 	} else {
@@ -92,9 +100,19 @@ func (abst *AvlByBSTM) addNode(key binaryTree.Compared, val interface{}, Node *A
 	Node.High = abst.getHigh(Node)
 	// 获取当前节点的平衡因子
 	balanceFactor := abst.getBalanceFactor(Node)
-	if balanceFactor > 1 {
-		fmt.Println(Node.Key)
-		Node = abst.ggRotate(Node)
+	if balanceFactor > 1 && abst.getBalanceFactor(Node.Left) >= 0 {
+		return abst.ggRotate(Node)
+	}
+	if balanceFactor > 1 && abst.getBalanceFactor(Node.Left) < 0 {
+		Node.Left = abst.llRotate(Node.Left)
+		return abst.ggRotate(Node)
+	}
+	if balanceFactor < -1 && abst.getBalanceFactor(Node.Right) <= 0 {
+		return abst.llRotate(Node)
+	}
+	if balanceFactor < -1 && abst.getBalanceFactor(Node.Right) > 0 {
+		Node.Right = abst.ggRotate(Node.Right)
+		return abst.llRotate(Node)
 	}
 
 	return Node
@@ -102,7 +120,7 @@ func (abst *AvlByBSTM) addNode(key binaryTree.Compared, val interface{}, Node *A
 
 // AddNode 主要调用 addNode 实现添加节点
 func (abst *AvlByBSTM) AddNode(key binaryTree.Compared, val interface{}) {
-	abst.node =  abst.addNode(key, val, abst.node)
+	abst.node = abst.addNode(key, val, abst.node)
 }
 
 func (abst *AvlByBSTM) delMin(node *AvlTreeNode) (*AvlTreeNode, interface{}, interface{}) {
@@ -150,9 +168,9 @@ func (abst *AvlByBSTM) delNode(node *AvlTreeNode, key binaryTree.Compared) (*Avl
 	var err error
 	if key.Comparison(node.Key) > 0 {
 		node.Right, err = abst.delNode(node.Right, key)
-	}else if key.Comparison(node.Key) < 0 {
+	} else if key.Comparison(node.Key) < 0 {
 		node.Left, err = abst.delNode(node.Left, key)
-	}else {
+	} else {
 		var newVal, newKey interface{}
 		if node.Right == nil {
 			return nil, nil
@@ -161,6 +179,26 @@ func (abst *AvlByBSTM) delNode(node *AvlTreeNode, key binaryTree.Compared) (*Avl
 		node.Val = newVal
 		node.Key = newKey
 	}
+
+	// 获取当前的高度(左右子节点的最大高度+1)
+	node.High = abst.getHigh(node)
+	// 获取当前节点的平衡因子
+	balanceFactor := abst.getBalanceFactor(node)
+	if balanceFactor > 1 && abst.getBalanceFactor(node.Left) >= 0 {
+		return abst.ggRotate(node), err
+	}
+	if balanceFactor > 1 && abst.getBalanceFactor(node.Left) < 0 {
+		node.Left = abst.llRotate(node.Left)
+		return abst.ggRotate(node), err
+	}
+	if balanceFactor < -1 && abst.getBalanceFactor(node.Right) <= 0 {
+		return abst.llRotate(node), err
+	}
+	if balanceFactor < -1 && abst.getBalanceFactor(node.Right) > 0 {
+		node.Right = abst.ggRotate(node.Right)
+		return abst.llRotate(node), err
+	}
+
 	return node, err
 }
 
@@ -169,7 +207,7 @@ func (abst *AvlByBSTM) DelNode(key binaryTree.Compared) error {
 		return errors.New("this binarySearchTree is empty")
 	}
 	var err error
-	abst.node, err =  abst.delNode(abst.node, key)
+	abst.node, err = abst.delNode(abst.node, key)
 	abst.size--
 	return err
 }
@@ -183,9 +221,9 @@ func (abst AvlByBSTM) GetVal(key binaryTree.Compared) interface{} {
 	for tempNode != nil {
 		if key.Comparison(tempNode.Key) > 0 {
 			tempNode = tempNode.Right
-		}else if key.Comparison(tempNode.Key) < 0 {
+		} else if key.Comparison(tempNode.Key) < 0 {
 			tempNode = tempNode.Left
-		}else {
+		} else {
 			return tempNode.Val
 		}
 	}
@@ -197,9 +235,9 @@ func (abst *AvlByBSTM) SetNodeVal(key binaryTree.Compared, val interface{}) bool
 	for tempNode != nil {
 		if key.Comparison(tempNode.Val) > 0 {
 			tempNode = tempNode.Right
-		}else if key.Comparison(tempNode.Val) < 0 {
+		} else if key.Comparison(tempNode.Val) < 0 {
 			tempNode = tempNode.Left
-		}else {
+		} else {
 			tempNode.Val = val
 			return true
 		}

@@ -30,7 +30,7 @@ func (mbb MapBaseBst) GetSize() int {
 func (mbb *MapBaseBst) Set(k binaryTree.Compared, v interface{}) {
 	if mbb.data.FindNode(k) {
 		mbb.data.SetNodeVal(k, v)
-	}else {
+	} else {
 		mbb.data.AddNode(k, v)
 	}
 }
@@ -77,4 +77,3 @@ func (i inter) Comparison(val interface{}) int {
 	}
 	return 0
 }
-

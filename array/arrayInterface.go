@@ -13,5 +13,5 @@ type arrayInterface interface {
 	DelByIndex(index int) (interface{}, error)
 	DelByValL(val interface{}) (int, error)
 	DelByValR(val interface{}) (int, error)
-	ReplaceByIndex(index int, val interface{}) (error)
+	ReplaceByIndex(index int, val interface{}) error
 }

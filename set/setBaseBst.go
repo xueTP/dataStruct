@@ -2,8 +2,8 @@ package set
 
 import (
 	"MyPro/dataStruct/binaryTree"
-	"log"
 	"fmt"
+	"log"
 )
 
 type SetBaseBst struct {

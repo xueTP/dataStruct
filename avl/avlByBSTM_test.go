@@ -1,8 +1,8 @@
 package avl
 
 import (
-	"testing"
 	"github.com/Sirupsen/logrus"
+	"testing"
 )
 
 // 模拟一个自定义类型用来测试 Compared
@@ -46,6 +46,22 @@ func TestAvlByBSTM_addNode(t *testing.T) {
 	logrus.Info(avl)
 	avl.node = avl.addNode(comparedInter(1), nil, avl.node)
 	logrus.Info(avl)
+	if avl.getBalanceFactor(avl.node) > 1 {
+		t.Error("this func is fail")
+	}
+}
+
+func TestAvlByBSTM_delNode(t *testing.T) {
+	avl := NewAvlByBSTM()
+	avl.node = avl.addNode(comparedInter(4), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(2), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(3), nil, avl.node)
+	logrus.Info(avl)
+	avl.node = avl.addNode(comparedInter(1), nil, avl.node)
+	logrus.Info(avl)
+	avl.DelNode(comparedInter(3))
 	if avl.getBalanceFactor(avl.node) > 1 {
 		t.Error("this func is fail")
 	}

@@ -1,11 +1,11 @@
 package binaryTree
 
 import (
-	"strings"
-	"strconv"
-	"fmt"
 	"dataStruct/util"
 	"errors"
+	"fmt"
+	"strconv"
+	"strings"
 )
 
 type BinarySearchTreeToMap struct {
@@ -43,12 +43,12 @@ func (bst BinarySearchTreeToMap) GetSize() int {
 
 func (bst *BinarySearchTreeToMap) addNode(key Compared, val interface{}, Node *TreeNodeToMap) *TreeNodeToMap {
 	if Node == nil {
-		bst.size ++
+		bst.size++
 		return NewTreeNodeToMOnly(key, val)
 	}
 
 	if key.Comparison(Node.Key) > 0 {
-		Node.Right = bst.addNode(key ,val, Node.Right)
+		Node.Right = bst.addNode(key, val, Node.Right)
 	} else if key.Comparison(Node.Key) < 0 {
 		Node.Left = bst.addNode(key, val, Node.Left)
 	}
@@ -57,7 +57,7 @@ func (bst *BinarySearchTreeToMap) addNode(key Compared, val interface{}, Node *T
 }
 
 func (bst *BinarySearchTreeToMap) AddNode(key Compared, val interface{}) {
-	bst.node =  bst.addNode(key, val, bst.node)
+	bst.node = bst.addNode(key, val, bst.node)
 }
 
 func (bst *BinarySearchTreeToMap) delMin(node *TreeNodeToMap) (*TreeNodeToMap, interface{}, interface{}) {
@@ -105,9 +105,9 @@ func (bst *BinarySearchTreeToMap) delNode(node *TreeNodeToMap, key Compared) (*T
 	var err error
 	if key.Comparison(node.Key) > 0 {
 		node.Right, err = bst.delNode(node.Right, key)
-	}else if key.Comparison(node.Key) < 0 {
+	} else if key.Comparison(node.Key) < 0 {
 		node.Left, err = bst.delNode(node.Left, key)
-	}else {
+	} else {
 		var newVal, newKey interface{}
 		if node.Right == nil {
 			return nil, nil
@@ -124,7 +124,7 @@ func (bst *BinarySearchTreeToMap) DelNode(key Compared) error {
 		return errors.New("this binarySearchTree is empty")
 	}
 	var err error
-	bst.node, err =  bst.delNode(bst.node, key)
+	bst.node, err = bst.delNode(bst.node, key)
 	bst.size--
 	return err
 }
@@ -138,9 +138,9 @@ func (bst BinarySearchTreeToMap) GetVal(key Compared) interface{} {
 	for tempNode != nil {
 		if key.Comparison(tempNode.Key) > 0 {
 			tempNode = tempNode.Right
-		}else if key.Comparison(tempNode.Key) < 0 {
+		} else if key.Comparison(tempNode.Key) < 0 {
 			tempNode = tempNode.Left
-		}else {
+		} else {
 			return tempNode.Val
 		}
 	}
@@ -152,9 +152,9 @@ func (bst *BinarySearchTreeToMap) SetNodeVal(key Compared, val interface{}) bool
 	for tempNode != nil {
 		if key.Comparison(tempNode.Val) > 0 {
 			tempNode = tempNode.Right
-		}else if key.Comparison(tempNode.Val) < 0 {
+		} else if key.Comparison(tempNode.Val) < 0 {
 			tempNode = tempNode.Left
-		}else {
+		} else {
 			tempNode.Val = val
 			return true
 		}

@@ -1,8 +1,8 @@
 package trie
 
 // 用于字典树的节点
-type TrieNode struct{
-	Val byte
+type TrieNode struct {
+	Val  byte
 	Next map[byte]*TrieNode
 }
 
