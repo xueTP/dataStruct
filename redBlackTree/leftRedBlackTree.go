@@ -63,17 +63,43 @@ func (rbt *LeftRBTree) leftRotate(node *redBlackTreeNode) *redBlackTreeNode {
 	return x
 }
 
+// rightRotate 辅助函数，用于当节点添加到一个三节点上的左边
+func (rbt *LeftRBTree) rightRotate(node *redBlackTreeNode) *redBlackTreeNode {
+	x := node.left
+	node.left = x.right
+	x.right = node
+	x.color = node.color
+	node.color = Black
+	x.left.color = Black
+	return x
+}
+
 func (rbt *LeftRBTree) addNode(val binaryTree.Compared, Node *redBlackTreeNode) *redBlackTreeNode {
 	if Node == nil {
 		rbt.size++
 		return NewRedBlackNode(val, nil)
 	}
 
-	if val.Comparison(Node.val) > 0 {
+	if val.Comparison(Node.key) > 0 {
 		Node.right = rbt.addNode(val, Node.right)
-	} else if val.Comparison(Node.val) < 0 {
+	} else if val.Comparison(Node.key) < 0 {
 		Node.left = rbt.addNode(val, Node.left)
 	}
+
+	if Node.left != nil && Node.left.color == Red && Node.left.right != nil && Node.left.right.color == Red {
+		Node.left = rbt.leftRotate(Node.left)
+		Node = rbt.rightRotate(Node)
+	}
+	if Node.left != nil && Node.left.color == Red && Node.left.left != nil && Node.left.left.color == Red {
+		Node = rbt.rightRotate(Node)
+	}
+	if Node.left != nil && Node.left.color == Red && Node.right != nil && Node.right.color == Red {
+		rbt.flipColor(Node)
+	}
+	if Node.right != nil && Node.right.color == Red {
+		Node = rbt.leftRotate(Node)
+	}
+
 	return Node
 }
 
@@ -88,6 +114,8 @@ func (rbt LeftRBTree) GetSize() int {
 func (rbt *LeftRBTree) AddNode(val binaryTree.Compared) {
 	rbt.node = rbt.addNode(val, rbt.node)
 }
+
+// TODO 红黑树的删除处理
 
 func (rbt *LeftRBTree) delMin(node *redBlackTreeNode) (*redBlackTreeNode, interface{}) {
 	if node.left == nil {
