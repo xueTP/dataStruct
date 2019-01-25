@@ -2,7 +2,6 @@ package hashTable
 
 import (
 	"dataStruct/binaryTree"
-	"expvar"
 )
 
 const maxRestSize = 9
@@ -41,14 +40,15 @@ func (ht *HashTable) resetSize(newKey int) {
 	}else if newKey > len(ht.hashSeed) - 1 {
 		newKey = len(ht.hashSeed) - 1
 	}
-	newData := make([]binaryTree.BinarySearchTreeToMap, newKey)
-	oldKey := ht.hashKey
-	ht.hashKey = newKey
-	for k, list := range ht.data {
-		for j, v := range list {
-
-		}
-	}
+	// newData := make([]binaryTree.BinarySearchTreeToMap, newKey)
+	// oldKey := ht.hashKey
+	// ht.hashKey = newKey
+	// for k, list := range ht.data {
+	// 	for j, v := range list {
+	//
+	// 	}
+	// }
+	// TODO 树结构体 自建结构体没有循环获取内部数据导致无法resetSize
 }
 
 func (ht *HashTable) Set(k binaryTree.Compared, v interface{}) {
