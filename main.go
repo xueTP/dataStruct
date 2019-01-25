@@ -1,6 +1,6 @@
 package main
 
-import "dataStruct/unionFind"
+import "dataStruct/binaryTree"
 
 func main() {
 	// array.MyArrayDemo()
@@ -10,5 +10,6 @@ func main() {
 	// heap.MaximumHeapDemo()
 	// lineSegmentTree.LSTBaseSliceDemo()
 	// trie.TrieForByteDemo()
-	unionFind.UnionFindBySliceDemo()
+	// unionFind.UnionFindBySliceDemo()
+	binaryTree.BinarySearchTreeDemo()
 }

@@ -1,10 +1,10 @@
 package set
 
 import (
+	"MyPro/dataStruct/binaryTree"
 	"MyPro/dataStruct/linkList"
 	"fmt"
 	"log"
-	"MyPro/dataStruct/binaryTree"
 )
 
 type SetBaseLl struct {

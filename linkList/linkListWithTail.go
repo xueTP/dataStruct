@@ -1,8 +1,8 @@
 package linkList
 
 import (
-	"errors"
 	"DataStruct/util"
+	"errors"
 	"fmt"
 )
 
@@ -13,7 +13,7 @@ type LinkListWithTail struct {
 
 func (llwt LinkListWithTail) String() string {
 	s := llwt.base.String()
-	s += "tail: " +  util.InterfaceToString(llwt.tail.Val)
+	s += "tail: " + util.InterfaceToString(llwt.tail.Val)
 	return s
 }
 
@@ -45,7 +45,7 @@ func (llwt *LinkListWithTail) AddByIndex(index int, val interface{}) error {
 	if index == llwt.base.GetSize() {
 		llwt.tail = NewNodeWithNext(val, nil)
 		prev.Next = llwt.tail
-	}else {
+	} else {
 		prev.Next = NewNodeWithNext(val, prev.Next)
 	}
 	llwt.base.size += 1
@@ -91,7 +91,7 @@ func (llwt *LinkListWithTail) RemoveFrist() (interface{}, error) {
 }
 
 func (llwt *LinkListWithTail) RemoveLast() (interface{}, error) {
-	return llwt.RemoveByIndex(llwt.base.GetSize()-1)
+	return llwt.RemoveByIndex(llwt.base.GetSize() - 1)
 }
 
 func LinkListWithTailDemo() {

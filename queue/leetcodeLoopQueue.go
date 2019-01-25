@@ -8,7 +8,6 @@ type MyCircularQueue struct {
 	tail int
 }
 
-
 /** Initialize your data structure here. Set the size of the queue to be k. */
 func Constructor(k int) MyCircularQueue {
 	obj := MyCircularQueue{
@@ -18,7 +17,6 @@ func Constructor(k int) MyCircularQueue {
 	return obj
 }
 
-
 /** Insert an element into the circular queue. Return true if the operation is successful. */
 func (this *MyCircularQueue) EnQueue(value int) bool {
 	if this.IsFull() {
@@ -26,13 +24,12 @@ func (this *MyCircularQueue) EnQueue(value int) bool {
 	}
 	if this.IsEmpty() {
 		this.data[this.tail] = value
-	}else {
+	} else {
 		this.tail = (this.tail + 1) % len(this.data)
 		this.data[this.tail] = value
 	}
 	return true
 }
-
 
 /** Delete an element from the circular queue. Return true if the operation is successful. */
 func (this *MyCircularQueue) DeQueue() bool {
@@ -41,12 +38,11 @@ func (this *MyCircularQueue) DeQueue() bool {
 	}
 	if this.head == this.tail {
 		this.data[this.head] = math.MaxInt32
-	}else{
+	} else {
 		this.head = (this.head + 1) % len(this.data)
 	}
 	return true
 }
-
 
 /** Get the front item from the queue. */
 func (this *MyCircularQueue) Front() int {
@@ -56,7 +52,6 @@ func (this *MyCircularQueue) Front() int {
 	return this.data[this.head]
 }
 
-
 /** Get the last item from the queue. */
 func (this *MyCircularQueue) Rear() int {
 	if this.IsEmpty() {
@@ -65,16 +60,14 @@ func (this *MyCircularQueue) Rear() int {
 	return this.data[this.tail]
 }
 
-
 /** Checks whether the circular queue is empty or not. */
 func (this *MyCircularQueue) IsEmpty() bool {
 	return this.head == this.tail && this.data[this.tail] == math.MaxInt32
 }
 
-
 /** Checks whether the circular queue is full or not. */
 func (this *MyCircularQueue) IsFull() bool {
-	return (this.tail+1) % len(this.data) == this.head
+	return (this.tail+1)%len(this.data) == this.head
 }
 
 /**
@@ -88,6 +81,6 @@ func (this *MyCircularQueue) IsFull() bool {
  * param_6 := obj.IsFull();
  */
 
- func MyCircularQueueDemo() {
+func MyCircularQueueDemo() {
 
- }
+}

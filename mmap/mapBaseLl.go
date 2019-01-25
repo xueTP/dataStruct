@@ -1,8 +1,8 @@
 package mmap
 
 import (
-	"MyPro/dataStruct/linkList"
 	"MyPro/dataStruct/binaryTree"
+	"MyPro/dataStruct/linkList"
 	"fmt"
 )
 

@@ -34,7 +34,7 @@ func (bst *BinarySearchTree) inOrderTraversal(node *TreeNode, s string) string {
 
 func (bst *BinarySearchTree) addNode(val Compared, Node *TreeNode) *TreeNode {
 	if Node == nil {
-		bst.size ++
+		bst.size++
 		return NewTreeNodeOnly(val)
 	}
 
@@ -103,9 +103,9 @@ func (bst *BinarySearchTree) delNode(node *TreeNode, val Compared) (*TreeNode, e
 	var err error
 	if val.Comparison(node.Val) > 0 {
 		node.Right, err = bst.delNode(node.Right, val)
-	}else if val.Comparison(node.Val) < 0 {
+	} else if val.Comparison(node.Val) < 0 {
 		node.Left, err = bst.delNode(node.Left, val)
-	}else {
+	} else {
 		var newVal interface{}
 		if node.Right == nil {
 			return nil, nil
@@ -121,7 +121,7 @@ func (bst *BinarySearchTree) DelNode(val Compared) error {
 		return errors.New("this binarySearchTree is empty")
 	}
 	var err error
-	bst.node, err =  bst.delNode(bst.node, val)
+	bst.node, err = bst.delNode(bst.node, val)
 	bst.size--
 	return err
 }
@@ -131,9 +131,9 @@ func (bst *BinarySearchTree) FindNode(val Compared) bool {
 	for tempNode != nil {
 		if val.Comparison(tempNode.Val) > 0 {
 			tempNode = tempNode.Right
-		}else if val.Comparison(tempNode.Val) < 0 {
+		} else if val.Comparison(tempNode.Val) < 0 {
 			tempNode = tempNode.Left
-		}else {
+		} else {
 			return true
 		}
 	}
@@ -157,8 +157,10 @@ func BinarySearchTreeDemo() {
 	fmt.Println(bst, "--res", val, err)
 	err = bst.DelNode(inter(4))
 	fmt.Println(bst, "--res", err)
-	bool := bst.FindNode(inter(15))
-	fmt.Println(bst, "--res", bool)
+	err = bst.DelNode(inter(7))
+	fmt.Println(bst, "--res", err)
+	boolRes := bst.FindNode(inter(15))
+	fmt.Println(bst, "--res", boolRes)
 }
 
 type inter int

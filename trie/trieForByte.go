@@ -87,7 +87,7 @@ func (tfb *TrieForByte) del(node *TrieNode, s string) bool {
 		bo := tfb.del(next, s[1:])
 		if len(node.Next) == 1 && bo {
 			delete(node.Next, byte(s[0]))
-		}else{
+		} else {
 			return false
 		}
 	}
